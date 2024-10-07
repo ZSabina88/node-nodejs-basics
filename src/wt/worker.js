@@ -2,7 +2,18 @@
 const nthFibonacci = (n) => n < 2 ? n : nthFibonacci(n - 1) + nthFibonacci(n - 2);
 
 const sendResult = () => {
-    // This function sends result of nthFibonacci computations to main thread
+    postMessage({ status, data });
+};
+onmessage = function (e) {
+    const { data } = e;
+
+    try {
+        const result = nthFibonacci(data);
+
+        sendResult('resolved', result);
+    } catch (error) {
+        sendResult('error', null);
+    }
 };
 
 sendResult();
